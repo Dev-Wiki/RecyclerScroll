@@ -8,6 +8,8 @@ import android.util.Log;
 
 import net.devwiki.recyclerscroll.base.DividerItemDecoration;
 import net.devwiki.recyclerscroll.base.MockService;
+import net.devwiki.recyclerscroll.base.OnScrollCallback;
+import net.devwiki.recyclerscroll.base.ScrollRecycler;
 import net.devwiki.recyclerscroll.book.BookAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int TAG_CHECK_SCROLL_UP = 1;
     private static final int TAG_CHECK_SCROLL_DOWN = -1;
 
-    private RecyclerView demoRv;
+    private ScrollRecycler demoRv;
     private BookAdapter bookAdapter;
     private LinearLayoutManager layoutManager;
 
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        demoRv = (RecyclerView) findViewById(R.id.demo_rv);
+        demoRv = (ScrollRecycler) findViewById(R.id.demo_rv);
         layoutManager = new LinearLayoutManager(this);
         demoRv.setLayoutManager(layoutManager);
         demoRv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
@@ -34,7 +36,29 @@ public class MainActivity extends AppCompatActivity {
         bookAdapter = new BookAdapter();
         bookAdapter.fillList(MockService.getBookList());
         demoRv.setAdapter(bookAdapter);
+        setScrollCallback();
+    }
 
+    private void setScrollCallback() {
+        demoRv.setOnScrollCallback(new OnScrollCallback() {
+            @Override
+            public void onStateChanged(ScrollRecycler recycler, int state) {
+                Log.i(TAG, "onStateChanged: state:" + state);
+            }
+
+            @Override
+            public void onScrollUp(ScrollRecycler recycler, int dy) {
+                Log.i(TAG, "onScrollUp: " + dy);
+            }
+
+            @Override
+            public void onScrollDown(ScrollRecycler recycler, int dy) {
+                Log.i(TAG, "onScrollDown: " + dy);
+            }
+        });
+    }
+
+    private void setScrollListener() {
         demoRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
