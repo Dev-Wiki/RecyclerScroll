@@ -52,8 +52,18 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
+            public void onScrollToTop() {
+                Log.i(TAG, "onScrollToTop: ");
+            }
+
+            @Override
             public void onScrollDown(ScrollRecycler recycler, int dy) {
                 Log.i(TAG, "onScrollDown: " + dy);
+            }
+
+            @Override
+            public void onScrollToBottom() {
+                Log.i(TAG, "onScrollToBottom: ");
             }
         });
     }

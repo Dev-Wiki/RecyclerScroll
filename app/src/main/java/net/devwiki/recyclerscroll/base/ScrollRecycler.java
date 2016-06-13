@@ -29,6 +29,14 @@ public class ScrollRecycler extends RecyclerView {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 callback.onStateChanged(ScrollRecycler.this, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (!recyclerView.canScrollVertically(1)) {
+                        callback.onScrollToBottom();
+                    }
+                    if (!recyclerView.canScrollVertically(-1)) {
+                        callback.onScrollToTop();
+                    }
+                }
             }
 
             @Override
